@@ -46,3 +46,19 @@ Qual modelo de ia está conectado a esse chat ?
 **WLC.IA:**
 
 Eu sou um modelo de linguagem de grande escala treinado pelo Google.
+
+---
+
+## 2026-11-21 02:33 UTC · sistema-profissional (e40272e8)
+
+**Usuário:**
+
+Qual modelo específico ?
+
+**WLC.IA:**
+
+Como uma inteligência artificial integrada ao ambiente, não tenho um nome de "modelo" comercial específico (como GPT-4, Claude 3 ou Gemini 1.5 Pro) que seja reportado diretamente na minha interface de execução técnica.
+
+Eu opero como um **núcleo de orquestração cognitiva (WLC.IA v1.0.0)** que utiliza modelos de última geração disponibilizados pelo Google para processar linguagem natural, analisar código e executar tarefas agênticas. Minha identidade e comportamento são definidos pelas camadas de instrução do sistema que você visualiza (como o `Autonomous Engineering Intelligence Core`), e não por uma marca de modelo isolada.
+
+Meu propósito é atuar como uma equipe técnica multidisciplinar integrada ao seu projeto, priorizando a execução determinística, a análise de evidências e o suporte profissional ao desenvolvimento, independentemente da versão exata do modelo base que está processando os tokens no momento.
