@@ -95,6 +95,15 @@
                     const totalSales = wlcDb.data.vendas.length;
                     const totalRevenue = wlcDb.data.vendas.reduce((s, v) => s + v.total, 0);
                     return `
+                        <div class="flex justify-between items-end mb-8">
+                            <div>
+                                <h1 class="text-2xl font-bold">Dashboard</h1>
+                                <p class="text-slate-500">Visão geral do negócio</p>
+                            </div>
+                            <button onclick="App.actions.exportSales()" class="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 transition">
+                                <i data-lucide="download" class="w-4 h-4"></i> Exportar CSV
+                            </button>
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                                 <p class="text-slate-500 text-sm">Total Produtos</p>
@@ -110,11 +119,12 @@
                             </div>
                         </div>
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                            <div class="p-6 border-b border-slate-100">
+                            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
                                 <h3 class="font-bold text-lg">Histórico de Vendas</h3>
+                                <input type="text" placeholder="Filtrar vendas..." oninput="App.actions.filterSales(this.value)" class="border border-slate-200 rounded-lg px-3 py-2 text-sm focus:border-primary outline-none">
                             </div>
                             <div class="overflow-x-auto">
-                                <table class="w-full text-sm">
+                                <table id="salesTable" class="w-full text-sm">
                                     <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider">
                                         <tr>
                                             <th class="px-6 py-3 text-left">Data</th>
@@ -126,7 +136,7 @@
                                         ${wlcDb.data.vendas.length === 0 ? 
                                             '<tr><td colspan="3" class="px-6 py-8 text-center text-slate-400">Nenhuma venda realizada.</td></tr>' :
                                             wlcDb.data.vendas.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).map(v => `
-                                                <tr>
+                                                <tr class="sale-row">
                                                     <td class="px-6 py-4 text-slate-600">${new Date(v.createdAt).toLocaleDateString()}</td>
                                                     <td class="px-6 py-4 text-slate-900">${v.items.length} itens</td>
                                                     <td class="px-6 py-4 text-right font-bold text-primary">R$ ${v.total.toFixed(2)}</td>
@@ -218,6 +228,22 @@
                         App.state.cart = [];
                         App.router.push('dashboard');
                     }
+                },
+                filterSales: (query) => {
+                    const rows = document.querySelectorAll('.sale-row');
+                    rows.forEach(row => {
+                        row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none';
+                    });
+                },
+                exportSales: () => {
+                    const data = wlcDb.data.vendas;
+                    const csv = 'Data,Itens,Total\n' + data.map(v => `${new Date(v.createdAt).toLocaleDateString()},${v.items.length},${v.total.toFixed(2)}`).join('\n');
+                    const blob = new Blob([csv], { type: 'text/csv' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'vendas.csv';
+                    a.click();
                 }
             }
         };
