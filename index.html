@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WLC SaaS Control | Dashboard</title>
+    <title>WLC SaaS | Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,8 +12,8 @@
             theme: {
                 extend: {
                     colors: {
-                        indigo: { 600: '#4f46e5' },
-                        slate: { 900: '#0f172a', 800: '#1e293b', 100: '#f1f5f9' },
+                        primary: '#00FFCC',
+                        slate: { 900: '#0f172a', 800: '#1e293b', 700: '#334155', 100: '#f1f5f9' },
                     },
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
                 }
@@ -21,61 +21,64 @@
         }
     </script>
 </head>
-<body class="bg-slate-100 text-slate-900 font-sans">
+<body class="bg-slate-50 text-slate-900 font-sans">
 
     <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-slate-900 text-white p-6 flex flex-col hidden md:flex">
-            <div class="flex items-center gap-2 mb-10">
-                <i data-lucide="shield-check" class="w-8 h-8 text-indigo-400"></i>
-                <span class="text-xl font-bold tracking-tight text-white">WLC SaaS</span>
+        <aside class="w-64 bg-slate-900 text-white flex flex-col">
+            <div class="p-6 flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                    <i data-lucide="zap" class="w-5 h-5 text-slate-900"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight">WLC SaaS</span>
             </div>
-            <nav class="flex-1 space-y-2">
-                <button onclick="App.router.push('dashboard')" class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-all text-slate-300 hover:text-white">
+            <nav class="flex-1 px-4 py-4 space-y-1">
+                <button onclick="App.router.push('dashboard')" class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-400 hover:text-white">
                     <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
                 </button>
-                <button onclick="App.router.push('products')" class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-all text-slate-300 hover:text-white">
-                    <i data-lucide="box" class="w-5 h-5"></i> Produtos
+                <button onclick="App.router.push('products')" class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-400 hover:text-white">
+                    <i data-lucide="package" class="w-5 h-5"></i> Produtos
                 </button>
-                <button onclick="App.router.push('pos')" class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-all text-slate-300 hover:text-white">
-                    <i data-lucide="shopping-cart" class="w-5 h-5"></i> PDV Pro
+                <button onclick="App.router.push('pos')" class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 transition-colors text-slate-400 hover:text-white">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i> PDV Pro
                 </button>
             </nav>
+            <div class="p-4 border-t border-slate-800">
+                <div class="bg-slate-800 p-4 rounded-xl text-center">
+                    <p class="text-xs text-slate-400 mb-2">Plano Pro ativo</p>
+                    <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-primary w-3/4 h-full"></div>
+                    </div>
+                </div>
+            </div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden">
-            <!-- Topbar -->
+        <main class="flex-1 flex flex-col overflow-hidden">
             <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8">
-                <h2 id="pageTitle" class="text-lg font-semibold capitalize">Dashboard</h2>
+                <h2 id="pageTitle" class="text-lg font-semibold capitalize text-slate-900">Dashboard</h2>
                 <div class="flex items-center gap-4">
-                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">Assinatura Premium</button>
-                    <div class="w-8 h-8 rounded-full bg-slate-200 border border-slate-300"></div>
+                    <button class="bg-primary text-slate-900 px-4 py-2 rounded-lg text-sm font-bold hover:opacity-90 transition">Upgrade</button>
+                    <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-slate-300"></div>
                 </div>
             </header>
 
-            <!-- Scrollable Content -->
             <div id="content" class="flex-1 overflow-auto p-8">
-                <!-- Conteúdo Injetado via App.render -->
             </div>
         </main>
     </div>
 
     <script>
         const wlcDb = {
-            data: JSON.parse(localStorage.getItem('wlc_db') || '{}'),
-            collection: (name) => {
-                if (!wlcDb.data[name]) wlcDb.data[name] = [];
-                return {
-                    list: () => [...wlcDb.data[name]],
-                    create: (item) => {
-                        const entry = { ...item, id: Date.now(), createdAt: new Date().toISOString() };
-                        wlcDb.data[name].push(entry);
-                        localStorage.setItem('wlc_db', JSON.stringify(wlcDb.data));
-                        return entry;
-                    }
-                };
-            }
+            data: JSON.parse(localStorage.getItem('wlc_db') || '{"produtos": []}'),
+            save: () => localStorage.setItem('wlc_db', JSON.stringify(wlcDb.data)),
+            collection: (name) => ({
+                list: () => [...wlcDb.data[name]],
+                create: (item) => {
+                    const entry = { ...item, id: Date.now(), createdAt: new Date().toISOString() };
+                    wlcDb.data[name].push(entry);
+                    wlcDb.save();
+                    return entry;
+                }
+            })
         };
 
         const ProductService = {
@@ -86,44 +89,41 @@
         const App = {
             router: {
                 push: (page) => {
-                    const content = document.getElementById('content');
                     document.getElementById('pageTitle').innerText = page.replace('-', ' ');
-                    content.innerHTML = App.render[page] ? App.render[page]() : '<p>Página não encontrada.</p>';
+                    document.getElementById('content').innerHTML = App.render[page] ? App.render[page]() : '<p>Página não encontrada.</p>';
                     lucide.createIcons();
                 }
             },
             render: {
                 dashboard: () => `
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <p class="text-slate-500 text-sm">Total de Produtos</p>
-                            <p class="text-3xl font-bold mt-2">${ProductService.list().length}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                            <p class="text-slate-500 text-sm">Total Produtos</p>
+                            <p class="text-3xl font-bold mt-1">${ProductService.list().length}</p>
                         </div>
                     </div>
                 `,
-                products: () => `
-                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-bold text-lg">Catálogo de Produtos</h3>
+                products: () => \`
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                            <h3 class="font-bold text-lg">Catálogo</h3>
                             <div class="flex gap-2">
-                                <input id="prodName" placeholder="Nome" class="border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <input id="prodPrice" type="number" placeholder="R$" class="border border-slate-200 rounded-lg px-3 py-2 text-sm w-24 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <button onclick="App.actions.addProduct()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Adicionar</button>
+                                <input id="prodName" placeholder="Nome" class="border border-slate-200 rounded-lg px-3 py-2 text-sm focus:border-primary outline-none">
+                                <input id="prodPrice" type="number" placeholder="R$" class="border border-slate-200 rounded-lg px-3 py-2 text-sm w-24 focus:border-primary outline-none">
+                                <button onclick="App.actions.addProduct()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800">Add</button>
                             </div>
                         </div>
-                        <div class="border-t border-slate-100">
-                            ${ProductService.list().length === 0 
-                                ? '<div class="py-16 text-center text-slate-400">Nenhum produto cadastrado até o momento.</div>' 
-                                : ProductService.list().map(p => `
-                                    <div class="flex justify-between items-center py-4 border-b border-slate-100 hover:bg-slate-50 px-2 transition-colors">
-                                        <div class="font-medium text-slate-800">${p.name}</div>
-                                        <div class="text-indigo-600 font-semibold font-mono text-sm bg-indigo-50 px-3 py-1 rounded-full">R$ ${p.price.toFixed(2)}</div>
-                                    </div>
-                                `).join('')}
-                        </div>
+                        ${ProductService.list().length === 0 ? 
+                            '<div class="p-16 text-center text-slate-400">Nenhum produto.</div>' : 
+                            ProductService.list().map(p => \`
+                                <div class="flex justify-between items-center py-4 px-6 border-b border-slate-50 last:border-0 hover:bg-slate-50">
+                                    <span class="font-medium">${p.name}</span>
+                                    <span class="text-primary font-bold text-sm bg-primary/10 px-3 py-1 rounded-full">R$ ${p.price.toFixed(2)}</span>
+                                </div>
+                            \`).join('')}
                     </div>
-                `,
-                pos: () => '<div class="text-center py-20 text-slate-500 italic">Módulo de PDV em processo de implementação de alta latência.</div>'
+                \`,
+                pos: () => '<div class="text-center p-20 text-slate-400">Módulo PDV em desenvolvimento.</div>'
             },
             actions: {
                 addProduct: () => {
@@ -137,7 +137,6 @@
             }
         };
 
-        // Init
         App.router.push('dashboard');
     </script>
 </body>
