@@ -62,3 +62,17 @@ Como uma inteligência artificial integrada ao ambiente, não tenho um nome de "
 Eu opero como um **núcleo de orquestração cognitiva (WLC.IA v1.0.0)** que utiliza modelos de última geração disponibilizados pelo Google para processar linguagem natural, analisar código e executar tarefas agênticas. Minha identidade e comportamento são definidos pelas camadas de instrução do sistema que você visualiza (como o `Autonomous Engineering Intelligence Core`), e não por uma marca de modelo isolada.
 
 Meu propósito é atuar como uma equipe técnica multidisciplinar integrada ao seu projeto, priorizando a execução determinística, a análise de evidências e o suporte profissional ao desenvolvimento, independentemente da versão exata do modelo base que está processando os tokens no momento.
+
+---
+
+## 2026-11-21 02:39 UTC · sistema-profissional (e40272e8)
+
+**Usuário:**
+
+Qual é o código de identificação do projeto mestre e qual é a cor primária oficial definida para ele?
+
+**WLC.IA:**
+
+O código de identificação oficial do projeto mestre é **'WLC-ALPHA-999'**.
+
+A cor primária oficial definida para este contexto é **'#00FFCC'** (Cyan/Mint), que deve ser utilizada como token semântico para elementos de destaque, CTAs e estados ativos.
