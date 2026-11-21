@@ -34,3 +34,15 @@ O repositório é uma aplicação **SPA (Single Page Application)** construída 
 *   **Evolução da UI:** Adicionar estados de *loading* e *empty state* na tabela de produtos para melhorar a experiência do usuário quando o banco estiver vazio.
 
 O projeto cumpre o papel de um MVP (Minimum Viable Product) funcional. Se desejar evoluir, posso ajudar a planejar a modularização ou a implementação de novas funcionalidades, como o PDV ou relatórios. Como deseja proceder?
+
+---
+
+## 2026-11-21 02:32 UTC · sistema-profissional (e40272e8)
+
+**Usuário:**
+
+Qual modelo de ia está conectado a esse chat ?
+
+**WLC.IA:**
+
+Eu sou um modelo de linguagem de grande escala treinado pelo Google.
