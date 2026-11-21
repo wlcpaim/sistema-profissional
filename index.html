@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WLC Business Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#18181b',
+                        background: '#fafafa',
+                        surface: '#ffffff',
+                        text: '#09090b',
+                        muted: '#71717a',
+                        border: '#e4e4e7',
+                        accent: '#3b82f6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-text">
+    <div id="app">
+        <header class="border-b border-border bg-surface sticky top-0 z-10">
+            <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                <h1 class="font-bold text-xl">WLC<span class="text-muted font-normal">.Cloud</span></h1>
+                <nav class="flex gap-4">
+                    <button onclick="router.push('dashboard')" class="text-sm font-medium">Dashboard</button>
+                    <button onclick="router.push('pos')" class="text-sm font-medium">PDV</button>
+                    <button onclick="router.push('products')" class="text-sm font-medium">Estoque</button>
+                </nav>
+            </div>
+        </header>
+        <main class="max-w-7xl mx-auto px-4 py-8" id="content">
+            <!-- Conteúdo carregado dinamicamente -->
+            <div class="space-y-4">
+                <h2 class="text-3xl font-bold">Bem-vindo ao WLC Business Cloud</h2>
+                <p class="text-muted">Selecione uma funcionalidade para começar.</p>
+            </div>
+        </main>
+    </div>
+    <script>
+        const router = {
+            push: (page) => {
+                const content = document.getElementById('content');
+                if (page === 'dashboard') {
+                    content.innerHTML = '<h2 class="text-2xl font-bold">Dashboard</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"><div class="p-6 bg-surface border border-border rounded-md shadow-sm">Faturamento Diário: R$ 0,00</div><div class="p-6 bg-surface border border-border rounded-md shadow-sm">Vendas: 0</div><div class="p-6 bg-surface border border-border rounded-md shadow-sm">Clientes: 0</div></div>';
+                } else if (page === 'pos') {
+                    content.innerHTML = '<h2 class="text-2xl font-bold">PDV</h2><p class="text-muted">Módulo em construção.</p>';
+                } else if (page === 'products') {
+                    content.innerHTML = '<h2 class="text-2xl font-bold">Gestão de Estoque</h2><p class="text-muted">Módulo em construção.</p>';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
