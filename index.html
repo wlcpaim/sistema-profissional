@@ -3,34 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WLC Business Cloud V0.2</title>
+    <title>WLC Business Cloud</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
-        tailwind.config = { theme: { extend: { colors: { primary: '#18181b', background: '#fafafa', surface: '#ffffff', text: '#09090b', muted: '#71717a', border: '#e4e4e7', accent: '#3b82f6' } } } }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { DEFAULT: '#0f172a', hover: '#1e293b' },
+                        surface: '#ffffff',
+                        background: '#f8fafc',
+                        text: { DEFAULT: '#0f172a', muted: '#64748b' },
+                        border: '#e2e8f0'
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
     </script>
 </head>
 <body class="bg-background text-text font-sans">
-    <div id="app">
+    <div id="app" class="min-h-screen">
         <header class="border-b border-border bg-surface sticky top-0 z-10">
             <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-                <h1 class="font-bold text-xl">WLC<span class="text-muted font-normal">.Cloud</span></h1>
-                <nav class="flex gap-6">
-                    <button onclick="App.router.push('dashboard')" class="text-sm font-medium hover:text-accent">Dashboard</button>
-                    <button onclick="App.router.push('products')" class="text-sm font-medium hover:text-accent">Produtos</button>
-                    <button onclick="App.router.push('pos')" class="text-sm font-medium hover:text-accent">PDV</button>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="layout-dashboard" class="w-6 h-6 text-primary"></i>
+                    <h1 class="font-bold text-xl tracking-tight">WLC<span class="text-text/60 font-normal">.Cloud</span></h1>
+                </div>
+                <nav class="flex items-center gap-1">
+                    <button onclick="App.router.push('dashboard')" class="px-4 py-2 text-sm font-medium rounded-lg hover:bg-background transition-colors">Dashboard</button>
+                    <button onclick="App.router.push('products')" class="px-4 py-2 text-sm font-medium rounded-lg hover:bg-background transition-colors">Produtos</button>
+                    <button onclick="App.router.push('pos')" class="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary-hover transition-colors">PDV</button>
                 </nav>
             </div>
         </header>
         <main class="max-w-7xl mx-auto px-4 py-8" id="content">
-            <div class="space-y-4">
-                <h2 class="text-3xl font-bold">Bem-vindo ao WLC Business Cloud</h2>
-                <p class="text-muted">Sistema comercial profissional.</p>
+            <div class="space-y-6">
+                <div class="bg-surface p-8 rounded-2xl border border-border shadow-sm">
+                    <h2 class="text-3xl font-bold tracking-tight">Bem-vindo ao WLC Business Cloud</h2>
+                    <p class="text-text/60 mt-2">Sua plataforma de gestão comercial de alta performance.</p>
+                </div>
             </div>
         </main>
     </div>
     <script>
-        // --- CORE: WLC.DB ---
         const wlcDb = {
             data: JSON.parse(localStorage.getItem('wlc_db') || '{}'),
             collection: (name) => {
@@ -47,34 +65,50 @@
             }
         };
 
-        // --- CORE: SERVICES ---
         const ProductService = {
             list: () => wlcDb.collection('produtos').list(),
             create: (name, price) => wlcDb.collection('produtos').create({ name, price: parseFloat(price) })
         };
 
-        // --- CORE: APP ---
         const App = {
             router: {
                 push: (page) => {
                     const content = document.getElementById('content');
                     content.innerHTML = App.render[page] ? App.render[page]() : '<p>Página não encontrada.</p>';
+                    lucide.createIcons();
                 }
             },
             render: {
-                dashboard: () => `<h2 class="text-2xl font-bold">Dashboard</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"><div class="p-6 bg-surface border border-border rounded-md">Total Produtos: ${ProductService.list().length}</div></div>`,
-                products: () => `
-                    <h2 class="text-2xl font-bold mb-4">Gestão de Produtos</h2>
-                    <div class="flex gap-2 mb-4">
-                        <input id="prodName" placeholder="Nome" class="border p-2 rounded">
-                        <input id="prodPrice" type="number" placeholder="Preço" class="border p-2 rounded">
-                        <button onclick="App.actions.addProduct()" class="bg-primary text-white px-4 py-2 rounded">Salvar</button>
-                    </div>
-                    <div class="border rounded-md overflow-hidden bg-surface">
-                        ${ProductService.list().map(p => `<div class="p-4 border-b last:border-b-0">${p.name} - R$ ${p.price.toFixed(2)}</div>`).join('')}
+                dashboard: () => `
+                    <h2 class="text-2xl font-bold">Dashboard</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                        <div class="p-6 bg-surface border border-border rounded-xl shadow-sm">
+                            <p class="text-text/60 text-sm">Total de Produtos</p>
+                            <p class="text-3xl font-bold mt-1">${ProductService.list().length}</p>
+                        </div>
                     </div>
                 `,
-                pos: () => `<h2 class="text-2xl font-bold">PDV - Em desenvolvimento</h2>`
+                products: () => \`
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold">Gestão de Produtos</h2>
+                        <div class="flex gap-3">
+                            <input id="prodName" placeholder="Nome do produto" class="border border-border px-4 py-2 rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all">
+                            <input id="prodPrice" type="number" placeholder="Preço (R$)" class="border border-border px-4 py-2 rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all">
+                            <button onclick="App.actions.addProduct()" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-hover transition-colors font-medium">Salvar</button>
+                        </div>
+                    </div>
+                    <div class="bg-surface border border-border rounded-xl shadow-sm overflow-hidden">
+                        ${ProductService.list().length === 0 
+                            ? '<div class="p-12 text-center text-text/60">Nenhum produto cadastrado.</div>' 
+                            : ProductService.list().map(p => `
+                                <div class="flex justify-between p-4 border-b border-border last:border-0 hover:bg-background transition-colors">
+                                    <span class="font-medium">${p.name}</span>
+                                    <span class="text-primary font-bold">R$ ${p.price.toFixed(2)}</span>
+                                </div>
+                            `).join('')}
+                    </div>
+                \`,
+                pos: () => \`<h2 class="text-2xl font-bold">PDV</h2><p class="text-text/60 mt-4">Em desenvolvimento.</p>\`
             },
             actions: {
                 addProduct: () => {
@@ -87,6 +121,7 @@
                 }
             }
         };
+        lucide.createIcons();
     </script>
 </body>
 </html>
